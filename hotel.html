@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Grand Nashik | Luxury Hotel & Dining</title>
+    <style>
+        :root { --gold: #d4af37; --dark: #0f0f0f; --glass: rgba(255, 255, 255, 0.05); --light: #f9f9f9; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Playfair Display', serif, 'Arial'; }
+        html { scroll-behavior: smooth; }
+        body { background: var(--light); color: #333; }
+
+        /* Navigation */
+        nav { background: rgba(15, 15, 15, 0.95); padding: 15px 8%; position: fixed; width: 100%; top: 0; z-index: 1000; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--gold); }
+        nav .logo { font-size: 1.8rem; font-weight: bold; color: var(--gold); letter-spacing: 2px; cursor: pointer; }
+        nav ul { display: flex; list-style: none; align-items: center; }
+        nav ul li { margin-left: 25px; }
+        nav ul li a { color: white; text-decoration: none; font-size: 0.85rem; text-transform: uppercase; transition: 0.3s; cursor: pointer; }
+        nav ul li a:hover { color: var(--gold); }
+
+        /* Hero */
+        header { height: 90vh; background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com'); background-size: cover; background-position: center; display: flex; flex-direction: column; justify-content: center; align-items: center; color: white; text-align: center; }
+        header h1 { font-size: 4rem; margin-bottom: 10px; }
+        
+        .btn-gold { background: var(--gold); color: black; padding: 12px 25px; text-decoration: none; border-radius: 2px; font-weight: bold; transition: 0.4s; border: none; cursor: pointer; text-transform: uppercase; font-size: 0.8rem; }
+        .btn-gold:hover { background: white; }
+
+        /* Sections */
+        section { padding: 80px 10%; text-align: center; }
+        h2 { font-size: 2.8rem; margin-bottom: 50px; color: var(--dark); text-transform: uppercase; position: relative; }
+        h2::after { content: ''; width: 80px; height: 2px; background: var(--gold); position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%); }
+
+        /* Room Grid */
+        .room-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 40px; }
+        .room-card { background: white; overflow: hidden; border-radius: 5px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); transition: 0.4s; border-bottom: 3px solid transparent; }
+        .room-card:hover { transform: translateY(-10px); border-color: var(--gold); }
+        .room-card img { width: 100%; height: 250px; object-fit: cover; }
+        .room-info { padding: 25px; }
+        .price-tag { font-size: 1.6rem; color: var(--gold); font-weight: bold; display: block; margin: 15px 0; }
+
+        /* Royal Canteen */
+        .canteen-container { max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px; }
+        .food-item { background: white; padding: 20px; border-radius: 8px; display: flex; align-items: center; border-left: 5px solid var(--gold); transition: 0.3s; box-shadow: 0 5px 15px rgba(0,0,0,0.03); }
+        .food-item:hover { transform: scale(1.02); }
+        .food-img { width: 120px; height: 120px; border-radius: 5px; object-fit: cover; margin-right: 25px; flex-shrink: 0; }
+        .food-info { flex-grow: 1; text-align: left; }
+        .food-name { font-size: 1.3rem; font-weight: bold; color: var(--dark); display: block; }
+        .food-desc { font-size: 0.9rem; color: #666; font-style: italic; display: block; margin-top: 5px; }
+        .food-price { font-size: 1.4rem; color: var(--gold); font-weight: 800; margin: 0 20px; min-width: 90px; }
+        .luxury-label { background: #000; color: gold; font-size: 10px; padding: 3px 10px; border-radius: 20px; vertical-align: middle; margin-left: 5px; }
+
+        /* Login Modal */
+        .login-overlay { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(5px); }
+        .login-box { position: relative; background: var(--dark); border-top: 4px solid var(--gold); width: 90%; max-width: 400px; margin: 15vh auto; padding: 40px; color: white; text-align: center; }
+        .login-box h3 { font-size: 2rem; color: var(--gold); margin-bottom: 20px; }
+        .login-box input { width: 100%; padding: 15px; margin-bottom: 15px; background: #1a1a1a; border: 1px solid #333; color: white; border-radius: 2px; }
+        .close-login { position: absolute; top: 15px; right: 20px; color: #666; font-size: 1.5rem; cursor: pointer; }
+
+        /* Gallery */
+        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 15px; }
+        .gallery-grid img { width: 100%; height: 250px; object-fit: cover; transition: 0.5s; cursor: pointer; filter: grayscale(100%); }
+        .gallery-grid img:hover { filter: grayscale(0%); transform: scale(1.05); }
+
+        footer { background: var(--dark); color: #888; padding: 60px 10%; text-align: left; margin-top: 50px; }
+    </style>
+</head>
+<body>
+
+    <!-- NAVIGATION -->
+    <nav>
+        <div class="logo" onclick="window.scrollTo(0,0)">THE GRAND NASHIK</div>
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#rooms">Rooms</a></li>
+            <li><a href="#canteen">Canteen</a></li>
+            <li><a href="#gallery">Gallery</a></li>
+            <li><a onclick="toggleLogin()" class="btn-gold" style="color: black; padding: 8px 18px;">Login</a></li>
+        </ul>
+    </nav>
+
+    <!-- HERO -->
+    <header id="home">
+        <p style="letter-spacing: 5px; text-transform: uppercase;">A Heritage of Elegance</p>
+        <h1>Luxury Meets Heritage</h1>
+        <a href="#rooms" class="btn-gold" style="margin-top: 25px;">Explore Suites</a>
+    </header>
+
+    <!-- LOGIN MODAL -->
+    <div id="loginOverlay" class="login-overlay">
+        <div class="login-box">
+            <span class="close-login" onclick="toggleLogin()">&times;</span>
+            <h3>Guest Portal</h3>
+            <p style="margin-bottom: 20px; font-size: 0.9rem; color: #888;">Welcome back to the Grandeur.</p>
+            <form onsubmit="handleLogin(event)">
+                <input type="email" placeholder="Email Address" required>
+                <input type="password" placeholder="Password" required>
+                <button type="submit" class="btn-gold" style="width: 100%; padding: 15px;">Enter Portal</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- ROOMS -->
+    <section id="rooms">
+        <h2>Luxury Accommodations</h2>
+        <div class="room-grid">
+            <div class="room-card">
+               <img src="https://r1imghtlak.mmtcdn.com/456869acbb6811ee844d0a58a9feac02.jpeg" jsaction="" class="sFlh5c FyHeAf iPVvYb" style="max-width: 1600px; height: 238px; margin: 10px; width: 357px;" alt="Reviews of Hotel Royal Heritage - Hotel in Srinagar" jsname="kn3ccd">
+
+                <div class="room-info">
+                    <h3>Royal Heritage Suite</h3>
+                    <span class="price-tag">₹12,500 / Night</span>
+                    <button class="btn-gold" onclick="alert('Checking availability...')">Book Now</button>
+                </div>
+            </div>
+            <div class="room-card">
+         <img src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/03/b4/98/3e/imperial-garden-villa.jpg?w=900&amp;h=500&amp;s=1" jsaction="" class="sFlh5c FyHeAf iPVvYb" style="max-width: 900px; height: 198px; margin: 15px; width: 356px;" alt="IMPERIAL GARDEN VILLA &amp; HOTEL (Phnom Penh) - Hotel Reviews &amp; Photos -  Tripadvisor" jsname="kn3ccd">
+
+                <div class="room-info">
+                    <h3>Imperial Garden Villa</h3>
+                    <span class="price-tag">₹24,000 / Night</span>
+                    <button class="btn-gold" onclick="alert('Checking availability...')">Book Now</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ROYAL CANTEEN -->
+    <section id="canteen" style="background: #fdfaf4;">
+        <h2>The Royal Food Stall</h2>
+        <div class="canteen-container">
+            <!-- 1. Misal Pav -->
+            <div class="food-item">
+           <img src="https://static.punemirror.com/full/784065d7-c640-4173-a66c-da00f8559c48.webp" jsaction="" class="sFlh5c FyHeAf iPVvYb" style="max-width: 1400px; height: 100px; margin: 15px 0px; width: 130px;" alt="Best Misal Pav Places in Pune | Misal Pav Places Near Me - Pune Times Mirror" jsname="kn3ccd">
+
+                <div class="food-info">
+                    <span class="food-name">Gold Misal Pav <span class="luxury-label">SPECIAL</span></span>
+                    <span class="food-desc">24K Gold flakes, truffle-oil sprouts, brioche pav.</span>
+                </div>
+                <div class="food-price">₹550</div>
+                <button class="btn-gold" onclick="orderFood('Gold Misal')">Order</button>
+            </div>
+
+            <!-- 2. Thali -->
+            <div class="food-item">
+                 <img src="https://content.jdmagicbox.com/v2/comp/bangalore/u2/080pxx80.xx80.130829180117.j6u2/catalogue/suryawanshi-restaurant-indiranagar-bangalore-maharashtrian-restaurants-jzk2ngyptr.jpg" jsaction="" class="sFlh5c FyHeAf iPVvYb" style="max-width: 687px; height: 139px; margin: 7px 0px; width: 133px;" alt="Maharashtrian Thali Restaurants in Bangalore - Justdial" jsname="kn3ccd">
+
+                <div class="food-info">
+                    <span class="food-name">Maharashtrian Thali <span class="luxury-label">SIGNATURE</span></span>
+                    <span class="food-desc">A festive curation of 56 authentic regional items.</span>
+                </div>
+                <div class="food-price">₹600</div>
+                <button class="btn-gold" onclick="orderFood('Thali')">Order</button>
+            </div>
+
+            <!-- 3. Sol Kadhi -->
+            <div class="food-item">
+                   <img src="https://myfoodstory.com/wp-content/uploads/2024/11/Sol-Kadhi-Solkadi-_-Kokum-Drink-1.jpg" jsaction="" class="sFlh5c FyHeAf iPVvYb" style="max-width: 1200px; height: 200px; margin: 0px; width: 133px;" alt="Sol Kadhi | Kokum Curry - My Food Story" jsname="kn3ccd">
+
+                <div class="food-info">
+                    <span class="food-name">Artisanal Sol Kadhi</span>
+                    <span class="food-desc">Hand-pressed coconut milk with organic Kokum extract.</span>
+                </div>
+                <div class="food-price">₹180</div>
+                <button class="btn-gold" onclick="orderFood('Sol Kadhi')">Order</button>
+            </div>
+
+            <!-- 4. Kothimbir Vadi -->
+            <div class="food-item">
+               <img src="https://profusioncurry.com/wp-content/uploads/2018/06/Kothimbir-vadi-cilantro-fritters-overhead-image.jpg" jsaction="" class="sFlh5c FyHeAf iPVvYb" style="max-width: 1024px; height: 200px; margin: 0px; width: 133px;" alt="Kothimbir Vadi - Cilantro Fritters - Air Fryer" jsname="kn3ccd">
+
+                <div class="food-info">
+                    <span class="food-name">Crisp Kothimbir Vadi</span>
+                    <span class="food-desc">Steamed cilantro-gram flour cakes, pan-seared to perfection.</span>
+                </div>
+                <div class="food-price">₹220</div>
+                <button class="btn-gold" onclick="orderFood('Vadi')">Order</button>
+            </div>
+
+            <!-- 5. Puran Poli -->
+            <div class="food-item">
+                <img src="https://images.immediate.co.uk/production/volatile/sites/30/2021/02/Puran-poli-5d069b7.jpg?quality=90&amp;resize=708,643" jsaction="" class="sFlh5c FyHeAf iPVvYb" style="max-width: 708px; height: 121px; margin: 16px 0px; width: 133px;" alt="Saffron flatbread filled with lentils &amp; jaggery (puran poli)" jsname="kn3ccd">
+
+                <div class="food-info">
+                    <span class="food-name">Saffron Puran Poli</span>
+                    <span class="food-desc">Sweet jaggery flatbread served with pure A2 Gir Cow Ghee.</span>
+                </div>
+                <div class="food-price">₹280</div>
+                <button class="btn-gold" onclick="orderFood('Puran Poli')">Order</button>
+            </div>
+
+             <!-- Item 6: Sabudana Vada (New) -->
+            <div class="food-item">
+             <img src="https://bonmasala.com/wp-content/uploads/2023/01/sabudana-vada-recipe.webp" jsaction="" class="sFlh5c FyHeAf iPVvYb" style="max-width: 1060px; height: 119px; margin: 32px 0px; width: 133px;" alt="Crispy Sabudana Vada Recipe" jsname="kn3ccd">
+                <div class="food-info">
+                    <span class="food-name">Crispy Sabudana Vada</span>
+                    <span class="food-desc">Golden tapioca pearls with roasted peanut crunch.</span>
+                </div>
+                <div class="food-price">₹150</div>
+                <button class="btn-gold" onclick="orderItem('Sabudana Vada')">Order</button>
+            </div>
+
+     <!-- Item 7: Modak (New) -->
+            <div class="food-item">
+        <img src="https://www.spiceupthecurry.com/wp-content/uploads/2020/08/steamed-modak-1.jpg" jsaction="" class="sFlh5c FyHeAf iPVvYb" style="max-width: 1200px; height: 200px; margin: 0px; width: 133px;" alt="Ukadiche Modak Recipe (Steamed Modak)" jsname="kn3ccd">
+                <div class="food-info">
+                    <span class="food-name">Steamed Ukadiche Modak <span class="luxury-label">FESTIVE</span></span>
+                    <span class="food-desc">Rice flour dumplings with fresh coconut and jaggery heart.</span>
+                </div>
+                <div class="food-price">₹350</div>
+                <button class="btn-gold" onclick="orderItem('Modak')">Order</button>
+            </div>
+
+             </section>
+
+    <!-- GALLERY -->
+    <section id="gallery">
+        <h2>Visual Tour</h2>
+        <div class="gallery-grid">
+          <img src="https://images.unsplash.com/photo-1565623833408-d77e39b88af6?fm=jpg&amp;q=60&amp;w=3000&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0&amp;ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8c3VpdGV8ZW58MHx8MHx8fDA%3D" jsaction="" class="sFlh5c FyHeAf iPVvYb" style="max-width: 3000px; height: 235px; margin: 39px 0px; width: 240px;" alt="Suite Pictures | Download Free Images on Unsplash" jsname="kn3ccd">
+          <img src="https://gymleco.com/cdn/shop/files/gymleco-pulldown-machine-scaled.jpg?crop=region&amp;crop_height=1440&amp;crop_left=560&amp;crop_top=0&amp;crop_width=1440&amp;v=1733843401&amp;width=2560" jsaction="" class="sFlh5c FyHeAf iPVvYb" style="max-width: 1440px; height: 230px; margin: 39px 0px; width: 240px;" alt="High-Quality Gym Machines for Every Gym – Gymleco" jsname="kn3ccd">
+         <img src="https://i.pinimg.com/1200x/d7/ba/59/d7ba59961e693763d3670dbc8a15d5e1.jpg" jsaction="" class="sFlh5c FyHeAf iPVvYb" style="max-width: 798px; height: 240px; margin: 39px 0px; width: 240px;" alt="500 Dining ideas | house interior, dining room design, interior design" jsname="kn3ccd">
+          <img src="https://hips.hearstapps.com/hmg-prod/images/edc100123egan-002-6500742f5feb7.jpg" jsaction="" class="sFlh5c FyHeAf iPVvYb" style="max-width: 2500px; height: 240px; margin: 39px 0px; width: 240px;" alt="35 Modern House Ideas That Will Spark Some Intense Zillowing" jsname="kn3ccd">
+
+        </div>
+    </section>
+
+    <footer>
+        <div class="logo" style="margin-bottom: 20px;">THE GRAND NASHIK</div>
+        <p>123 Heritage Lane, Near [Radisson Blu Nashik](https://www.radissonhotels.com), Maharashtra</p>
+        <p style="margin-top: 10px; font-size: 0.8rem;">&copy; 2026 The Grand Nashik. Excellence in Hospitality.</p>
+    </footer>
+
+    <script>
+        function toggleLogin() {
+            const overlay = document.getElementById('loginOverlay');
+            overlay.style.display = (overlay.style.display === 'block') ? 'none' : 'block';
+        }
+        function handleLogin(e) {
+            e.preventDefault();
+            alert("Authentication successful. Welcome to your dashboard!");
+            toggleLogin();
+        }
+        function orderFood(item) {
+            alert("Your " + item + " order has been received. Our royal chefs are on it!");
+        }
+    </script>
+
+</body>
+</html>
